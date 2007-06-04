@@ -4,8 +4,8 @@
 %define libxorgoldname %mklibname xorg-x11
 Name: libx11
 Summary: X Library
-Version: 1.1.1
-Release: %mkrel 3
+Version: 1.1.2
+Release: %mkrel 1
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -19,7 +19,6 @@ Source10: X_Compose-en_US.UTF-8
 Source11: X11-compose.dir
 Source12: X11-locale.alias
 Source13: X11-locale.dir
-Patch0: libx11-CVE-2007-1667.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
@@ -144,7 +143,6 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
-%patch0 -p1 -b .cve-2007-1667
 
 # backup the original files (so we can look at them later) and use our own
 cp nls/compose.dir.pre nls/compose.dir.orig
