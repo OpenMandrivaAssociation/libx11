@@ -156,7 +156,7 @@ cat %{SOURCE13} | sed 's/#/XCOMM/' > nls/locale.dir.pre
 
 
 %build
-aclocal && libtoolize --force && automake && autoconf
+aclocal && libtoolize --force && autoheader && automake -a && autoconf
 %configure2_5x	--x-includes=%{_includedir}\
 		--x-libraries=%{_libdir}\
 		%if %enable_xcb
