@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.2
-Release: %mkrel 2
+Release: %mkrel 3
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -29,6 +29,7 @@ BuildRequires: libxdmcp-devel >= 1.0.0
 BuildRequires: x11-proto-devel >= 1.0.0
 BuildRequires: x11-util-macros >= 1.0.1
 BuildRequires: x11-xtrans-devel >= 1.0.0
+BuildRequires: libxcb-devel
 
 %description
 %{name} contains the shared libraries that most X programs
@@ -144,7 +145,6 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
-
 %patch0 -p1 -b .fix-XGetMotionEvents.patch
 
 # backup the original files (so we can look at them later) and use our own
@@ -159,9 +159,7 @@ cat %{SOURCE13} | sed 's/#/XCOMM/' > nls/locale.dir.pre
 
 
 %build
-aclocal && libtoolize --force && autoheader && automake -a && autoconf
-%configure2_5x	--x-includes=%{_includedir}\
-		--x-libraries=%{_libdir}\
+%configure2_5x \
 		%if %enable_xcb
 		--with-xcb
 		%else
