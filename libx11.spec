@@ -19,7 +19,6 @@ Source10: X_Compose-en_US.UTF-8
 Source11: X11-compose.dir
 Source12: X11-locale.alias
 Source13: X11-locale.dir
-Patch0: libX11-1.1.2-fix-XGetMotionEvents.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
@@ -91,7 +90,7 @@ fi
 
 %files -n %{libx11}-devel
 %defattr(-,root,root)
-%{_mandir}/man3/*.3.bz2
+%{_mandir}/man3/*.3.*
 %{_libdir}/libX11.so
 %{_libdir}/libX11.la
 %{_libdir}/pkgconfig/x11.pc
@@ -145,7 +144,6 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
-%patch0 -p1 -b .fix-XGetMotionEvents.patch
 
 # backup the original files (so we can look at them later) and use our own
 cp nls/compose.dir.pre nls/compose.dir.orig
