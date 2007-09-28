@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.3
-Release: %mkrel 1
+Release: %mkrel 2
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -19,6 +19,8 @@ Source10: X_Compose-en_US.UTF-8
 Source11: X11-compose.dir
 Source12: X11-locale.alias
 Source13: X11-locale.dir
+# (fc) 1.1.3-2mdv add missing keys to XKeysymDB (Mdv bug #34247)
+Patch0:	libX11-1.1.3-missingkey.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
@@ -144,6 +146,7 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
+%patch0 -p1 -b .missingkey
 
 # backup the original files (so we can look at them later) and use our own
 cp nls/compose.dir.pre nls/compose.dir.orig
