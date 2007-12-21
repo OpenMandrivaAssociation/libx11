@@ -21,6 +21,7 @@ Source12: X11-locale.alias
 Source13: X11-locale.dir
 # (fc) 1.1.3-2mdv add missing keys to XKeysymDB (Mdv bug #34247)
 Patch0:	libX11-1.1.3-missingkey.patch
+BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
 
