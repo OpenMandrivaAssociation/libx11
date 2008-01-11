@@ -107,6 +107,12 @@ fi
 %{_includedir}/X11/Xutil.h
 %{_includedir}/X11/XlibConf.h
 %{_includedir}/X11/XKBlib.h
+%if %enable_xcb
+%{_libdir}/libX11-xcb.so
+%{_libdir}/libX11-xcb.la
+%{_libdir}/pkgconfig/x11-xcb.pc
+%{_includedir}/X11/Xlib-xcb.h
+%endif
 
 #-----------------------------------------------------------
 
@@ -123,6 +129,9 @@ Static development files for %{name}
 %files -n %{libx11}-static-devel
 %defattr(-,root,root)
 %{_libdir}/libX11.a
+%if %enable_xcb
+%{_libdir}/libX11-xcb.a
+%endif
 
 #-----------------------------------------------------------
 
@@ -183,5 +192,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/libX11.so.6
 %{_libdir}/libX11.so.6.2.0
-
+%if %enable_xcb
+%{_libdir}/libX11-xcb.so.1
+%{_libdir}/libX11-xcb.so.1.0.0
+%endif
 
