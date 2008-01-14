@@ -25,12 +25,15 @@ BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
 
-BuildRequires: libxau-devel >= 1.0.0
-BuildRequires: libxdmcp-devel >= 1.0.0
-BuildRequires: x11-proto-devel >= 1.0.0
-BuildRequires: x11-util-macros >= 1.0.1
-BuildRequires: x11-xtrans-devel >= 1.0.0
+BuildRequires: x11-util-macros		>= 1.1.5
+BuildRequires: x11-xtrans-devel		>= 1.0.4
+BuildRequires: libxdmcp-devel		>= 1.0.2
+BuildRequires: libxau-devel		>= 1.0.3
+BuildRequires: x11-proto-devel		>= 7.3
+
+%if %{enable_xcb}
 BuildRequires: libxcb-devel
+%endif
 
 %description
 %{name} contains the shared libraries that most X programs
