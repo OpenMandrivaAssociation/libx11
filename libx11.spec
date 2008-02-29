@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.3
-Release: %mkrel 4
+Release: %mkrel 5
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -34,6 +34,9 @@ BuildRequires: x11-proto-devel		>= 7.3
 %if %{enable_xcb}
 BuildRequires: libxcb-devel
 %endif
+
+Requires(post): grep
+Requires(postun): grep coreutils
 
 %description
 %{name} contains the shared libraries that most X programs
