@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.4
-Release: %mkrel 1
+Release: %mkrel 2
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -28,6 +28,9 @@ BuildRequires: x11-xtrans-devel		>= 1.0.4
 BuildRequires: libxdmcp-devel		>= 1.0.2
 BuildRequires: libxau-devel		>= 1.0.3
 BuildRequires: x11-proto-devel		>= 7.3
+
+# because of %{_datadir/X11} being owned by x11-server-common
+Requires(pre): x11-server-common >= 1.4.0.90-13mdv
 
 %if %{enable_xcb}
 BuildRequires: libxcb-devel
@@ -147,7 +150,6 @@ Common files used by the X.org
 
 %files common
 %defattr(-,root,root)
-%dir %{_datadir}/X11
 %dir %{_datadir}/X11/locale
 %{_datadir}/X11/locale/*
 %{_libdir}/X11/Xcms.txt
@@ -168,7 +170,6 @@ cat %{SOURCE10} | sed 's/#/XCOMM/' > nls/en_US.UTF-8/Compose.pre
 cat %{SOURCE11} | sed 's/#/XCOMM/' > nls/compose.dir.pre
 cat %{SOURCE12} | sed 's/#/XCOMM/' > nls/locale.alias.pre
 cat %{SOURCE13} | sed 's/#/XCOMM/' > nls/locale.dir.pre
-
 
 %build
 %configure2_5x \
@@ -198,4 +199,3 @@ rm -rf %{buildroot}
 %{_libdir}/libX11-xcb.so.1
 %{_libdir}/libX11-xcb.so.1.0.0
 %endif
-
