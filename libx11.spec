@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.4
-Release: %mkrel 3
+Release: %mkrel 4
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
