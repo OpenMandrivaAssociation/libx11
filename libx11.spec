@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.4
-Release: %mkrel 4
+Release: %mkrel 5
 Group: Development/X11
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -72,7 +72,8 @@ if  grep -q "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf; then
 fi
 
 %postun -n %{libx11}
-if [ "$1" = "0" -a `grep "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf` != "" ]; then
+if [ "$1" = "0" \
+   -a "`grep "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf`" != "" ]; then
     grep -v "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf > /etc/ld.so.conf.new
     mv -f /etc/ld.so.conf.new /etc/ld.so.conf
     /sbin/ldconfig
