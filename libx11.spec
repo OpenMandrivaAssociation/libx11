@@ -4,8 +4,8 @@
 %define libxorgoldname %mklibname xorg-x11
 Name: libx11
 Summary: X Library
-Version: 1.1.4
-Release: %mkrel 5
+Version: 1.1.5
+Release: %mkrel 1
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -28,12 +28,6 @@ BuildRequires: x11-xtrans-devel		>= 1.0.4
 BuildRequires: libxdmcp-devel		>= 1.0.2
 BuildRequires: libxau-devel		>= 1.0.3
 BuildRequires: x11-proto-devel		>= 7.3
-
-# Some cherry picks of commits after libX11-1.1.4 tag
-Patch1: 0001-Fix-fd.o-bug-15023-make-Xlib-sync-correctly-given-m.patch
-Patch2: 0002-Bug-15884-Remove-useless-sleep-s-from-the-connec.patch
-Patch3: 0003-Fix-missing-error-condition.patch
-Patch4: 0004-added-error-check-in-Xcms-color-file-parser-closes.patch
 
 # because of %{_datadir/X11} being owned by x11-server-common
 Requires(pre): x11-server-common >= 1.4.0.90-13mdv
@@ -169,11 +163,6 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
-
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 # backup the original files (so we can look at them later) and use our own
 cp nls/compose.dir.pre nls/compose.dir.orig
