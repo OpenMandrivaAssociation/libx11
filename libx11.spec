@@ -33,7 +33,7 @@ BuildRequires: x11-proto-devel		>= 7.3
 Requires(pre): x11-server-common >= 1.4.0.90-13mdv
 
 %if %{enable_xcb}
-BuildRequires: libxcb-devel
+BuildRequires: xcb-devel
 %endif
 
 %description
