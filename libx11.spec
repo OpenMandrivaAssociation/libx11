@@ -1,11 +1,11 @@
-%define enable_xcb 0
+%define enable_xcb 1
 # mklibname should handle the special cases of library naming
 %define libx11 %mklibname x11_ 6
 %define libxorgoldname %mklibname xorg-x11
 Name: libx11
 Summary: X Library
 Version: 1.1.99.2
-Release: %mkrel 1
+Release: %mkrel 2
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
