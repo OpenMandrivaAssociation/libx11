@@ -4,7 +4,7 @@
 %define libxorgoldname %mklibname xorg-x11
 Name: libx11
 Summary: X Library
-Version: 1.1.5
+Version: 1.1.99.2
 Release: %mkrel 1
 Group: System/Libraries
 License: MIT
