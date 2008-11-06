@@ -1,4 +1,4 @@
-%define enable_xcb 1
+%define enable_xcb 0
 # mklibname should handle the special cases of library naming
 %define libx11 %mklibname x11_ 6
 %define libxorgoldname %mklibname xorg-x11
