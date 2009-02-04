@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.1.99.2
-Release: %mkrel 3
+Release: %mkrel 4
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -22,6 +22,8 @@ Source13: X11-locale.dir
 BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
+
+Patch1: 0001-Initialize-event_notify-after-allocating-the-memory.patch
 
 BuildRequires: x11-util-macros		>= 1.1.5
 BuildRequires: x11-xtrans-devel		>= 1.0.4
@@ -163,6 +165,7 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
+%patch1 -p1 -b .init-event-notify
 
 # backup the original files (so we can look at them later) and use our own
 cp nls/compose.dir.pre nls/compose.dir.orig
