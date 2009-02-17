@@ -4,12 +4,14 @@
 %define libxorgoldname %mklibname xorg-x11
 Name: libx11
 Summary: X Library
-Version: 1.1.99.2
-Release: %mkrel 4
+Version: 1.2
+Release: %mkrel 1
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
 Source0: http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.bz2
+
+# (cg) I've disabled this local copy for now... let's see how it goes :)
 # the new default unicode compose file is too human-unfriendly; keeping
 # the old one...
 Source10: X_Compose-en_US.UTF-8
@@ -22,8 +24,6 @@ Source13: X11-locale.dir
 BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
-
-Patch1: 0001-Initialize-event_notify-after-allocating-the-memory.patch
 
 BuildRequires: x11-util-macros		>= 1.1.5
 BuildRequires: x11-xtrans-devel		>= 1.0.4
@@ -165,17 +165,22 @@ Common files used by the X.org
 
 %prep
 %setup -q -n libX11-%{version}
-%patch1 -p1 -b .init-event-notify
 
 # backup the original files (so we can look at them later) and use our own
+
+# (cg) The Upstream Compose.pre looks good now, so let's try it out :)
+#cp nls/en_US.UTF-8/Compose.pre nls/en_US.UTF-8/Compose.orig
+#cat %{SOURCE10} | sed 's/#/XCOMM/' > nls/en_US.UTF-8/Compose.pre
+
 cp nls/compose.dir.pre nls/compose.dir.orig
-cp nls/locale.alias.pre nls/locale.alias.orig
-cp nls/locale.dir.pre nls/locale.dir.orig
-cp nls/en_US.UTF-8/Compose.pre nls/en_US.UTF-8/Compose.orig
-cat %{SOURCE10} | sed 's/#/XCOMM/' > nls/en_US.UTF-8/Compose.pre
 cat %{SOURCE11} | sed 's/#/XCOMM/' > nls/compose.dir.pre
+
+cp nls/locale.alias.pre nls/locale.alias.orig
 cat %{SOURCE12} | sed 's/#/XCOMM/' > nls/locale.alias.pre
+
+cp nls/locale.dir.pre nls/locale.dir.orig
 cat %{SOURCE13} | sed 's/#/XCOMM/' > nls/locale.dir.pre
+
 
 %build
 CFLAGS="-O0 -g3" \
