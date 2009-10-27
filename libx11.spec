@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.2.2
-Release: %mkrel 1
+Release: %mkrel 2
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -156,7 +156,6 @@ Common files used by the X.org
 %setup -q -n libX11-%{version}
 
 %build
-CFLAGS="-O0 -g3" \
 %configure2_5x \
 		%if %enable_xcb
 		--with-xcb
