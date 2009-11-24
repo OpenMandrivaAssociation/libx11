@@ -1,5 +1,4 @@
 %define enable_xcb 1
-%define enable_docs 0
 
 # mklibname should handle the special cases of library naming
 %define libx11 %mklibname x11_ 6
@@ -7,7 +6,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.3.2
-Release: %mkrel 2
+Release: %mkrel 3
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -21,9 +20,7 @@ BuildRequires: x11-xtrans-devel		>= 1.0.4
 BuildRequires: libxdmcp-devel		>= 1.0.2
 BuildRequires: libxau-devel		>= 1.0.3
 BuildRequires: x11-proto-devel		>= 7.3
-%if %{enable_docs}
 BuildRequires: groff			> 1.19.1
-%endif
 
 # because of %{_datadir/X11} being owned by x11-server-common
 Requires(pre): x11-server-common >= 1.4.0.90-13mdv
@@ -119,9 +116,8 @@ fi
 %{_includedir}/X11/Xlib-xcb.h
 %endif
 %{_mandir}/man5/*.5*
-%if %enable_docs
+%dir %{_docdir}/libX11
 %{_docdir}/libX11/*
-%endif
 
 #-----------------------------------------------------------
 
@@ -167,14 +163,9 @@ Common files used by the X.org
 %build
 %configure2_5x \
 		%if %enable_xcb
-		--with-xcb \
+		--with-xcb
 		%else
-		--without-xcb \
-		%endif
-		%if %enable_docs
-		--enable-specs
-		%else
-		--disable-specs
+		--without-xcb
 		%endif
 
 %make
