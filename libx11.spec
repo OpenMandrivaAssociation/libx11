@@ -153,7 +153,7 @@ Common files used by the X.org
 %{_datadir}/X11/locale/*
 %{_libdir}/X11/Xcms.txt
 %{_datadir}/X11/XErrorDB
-%{_datadir}/X11/XKeysymDB
+#%{_datadir}/X11/XKeysymDB
 
 #-----------------------------------------------------------
 
