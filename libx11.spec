@@ -5,7 +5,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.4.0
-Release: %mkrel 1
+Release: %mkrel 2
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -21,6 +21,8 @@ BuildRequires: libxau-devel		>= 1.0.3
 BuildRequires: x11-proto-devel		>= 7.3
 BuildRequires: groff			> 1.19.1
 BuildRequires: xcb-devel
+BuildRequires: xmlto
+BuildRequires: x11-sgml-doctools
 
 # because of %{_datadir/X11} being owned by x11-server-common
 Requires(pre): x11-server-common >= 1.4.0.90-13mdv
