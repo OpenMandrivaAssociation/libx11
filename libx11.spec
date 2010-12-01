@@ -1,8 +1,7 @@
-%define enable_xcb 1
-
 # mklibname should handle the special cases of library naming
 %define libx11 %mklibname x11_ 6
 %define libxorgoldname %mklibname xorg-x11
+
 Name: libx11
 Summary: X Library
 Version: 1.4.0
@@ -21,13 +20,10 @@ BuildRequires: libxdmcp-devel		>= 1.0.2
 BuildRequires: libxau-devel		>= 1.0.3
 BuildRequires: x11-proto-devel		>= 7.3
 BuildRequires: groff			> 1.19.1
+BuildRequires: xcb-devel
 
 # because of %{_datadir/X11} being owned by x11-server-common
 Requires(pre): x11-server-common >= 1.4.0.90-13mdv
-
-%if %{enable_xcb}
-BuildRequires: xcb-devel
-%endif
 
 %description
 %{name} contains the shared libraries that most X programs
@@ -109,12 +105,10 @@ fi
 %{_includedir}/X11/Xutil.h
 %{_includedir}/X11/XlibConf.h
 %{_includedir}/X11/XKBlib.h
-%if %enable_xcb
 %{_libdir}/libX11-xcb.so
 %{_libdir}/libX11-xcb.la
 %{_libdir}/pkgconfig/x11-xcb.pc
 %{_includedir}/X11/Xlib-xcb.h
-%endif
 %{_mandir}/man5/*.5*
 %dir %{_docdir}/libX11
 %{_docdir}/libX11/*
@@ -134,9 +128,7 @@ Static development files for %{name}
 %files -n %{libx11}-static-devel
 %defattr(-,root,root)
 %{_libdir}/libX11.a
-%if %enable_xcb
 %{_libdir}/libX11-xcb.a
-%endif
 
 #-----------------------------------------------------------
 
@@ -162,13 +154,7 @@ Common files used by the X.org
 %patch0 -p1
 
 %build
-%configure2_5x \
-		%if %enable_xcb
-		--with-xcb
-		%else
-		--without-xcb
-		%endif
-
+%configure2_5x
 %make
 
 %install
@@ -189,7 +175,5 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/libX11.so.6
 %{_libdir}/libX11.so.6.3.0
-%if %enable_xcb
 %{_libdir}/libX11-xcb.so.1
 %{_libdir}/libX11-xcb.so.1.0.0
-%endif
