@@ -21,6 +21,7 @@ BuildRequires: libxdmcp-devel		>= 1.0.2
 BuildRequires: libxau-devel		>= 1.0.3
 BuildRequires: x11-proto-devel		>= 7.4
 BuildRequires: groff			>= 1.20.1
+BuildRequires: docbook-dtd43-xml
 BuildRequires: xcb-devel
 BuildRequires: xmlto
 BuildRequires: x11-sgml-doctools
