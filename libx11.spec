@@ -1,25 +1,26 @@
-# mklibname should handle the special cases of library naming
 %define libx11 %mklibname x11_ 6
+%define develname %mklibname x11 -d
+%define staticname %mklibname x11 -s -d
 %define libxorgoldname %mklibname xorg-x11
-
 Name: libx11
 Summary: X Library
 Version: 1.4.1
-Release: %mkrel 1
+Release: %mkrel 2
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
 Source0: http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.bz2
+Patch0: libX11-1.3.5-fix-null-pointer.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Obsoletes: libxorg-x11
 Provides: libxorg-x11
-Patch0: libX11-1.3.5-fix-null-pointer.patch
+
 BuildRequires: x11-util-macros		>= 1.1.5
 BuildRequires: x11-xtrans-devel		>= 1.0.4
 BuildRequires: libxdmcp-devel		>= 1.0.2
 BuildRequires: libxau-devel		>= 1.0.3
-BuildRequires: x11-proto-devel		>= 7.3
-BuildRequires: groff			> 1.19.1
+BuildRequires: x11-proto-devel		>= 7.4
+BuildRequires: groff			>= 1.20.1
 BuildRequires: xcb-devel
 BuildRequires: xmlto
 BuildRequires: x11-sgml-doctools
@@ -66,15 +67,17 @@ fi
 
 #-----------------------------------------------------------
 
-%package -n %{libx11}-devel
+%package -n %{develname}
 Summary: Development files for %{name}
 Group: Development/X11
-Requires: %{libx11} = %{version}
+Requires: %{libx11} = %{version}-%{release}
 Requires: x11-proto-devel >= 1.0.0
 Provides: libx11-devel = %{version}-%{release}
 Conflicts: %{libxorgoldname}-devel < 7.0
+Provides: libx11_6-devel = %{version}-%{release}
+Obsoletes: %{mklibname x11_ 6}-devel
 
-%description -n %{libx11}-devel
+%description -n %{develname}
 %{name} includes the libraries, header files and documentation
 you'll need to develop programs which run in X clients. X11 includes
 the base Xlib library as well as the Xt and Xaw widget sets.
@@ -85,12 +88,12 @@ produces a series on X programming which you might find useful.
 Install %{name} if you are going to develop programs which
 will run as X clients.
 
-%pre -n %{libx11}-devel
+%pre -n %{develname}
 if [ -h %{_includedir}/X11 ]; then
 	rm -f %{_includedir}/X11
 fi
 
-%files -n %{libx11}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %{_mandir}/man3/*.3.*
 %{_libdir}/libX11.so
@@ -117,17 +120,19 @@ fi
 
 #-----------------------------------------------------------
 
-%package -n %{libx11}-static-devel
+%package -n %{staticname}
 Summary: Static development files for %{name}
 Group: Development/X11
-Requires: %{libx11}-devel = %{version}
+Requires: %{develname} = %{version}-%{release}
 Conflicts: %{libxorgoldname}-static-devel < 7.0
 Provides: libx11-static-devel = %{version}-%{release}
+Provides: libx11_6-static-devel = %{version}-%{release}
+Obsoletes: %{mklibname x11_ 6}-static-devel
 
-%description -n %{libx11}-static-devel
+%description -n %{staticname}
 Static development files for %{name}
 
-%files -n %{libx11}-static-devel
+%files -n %{staticname}
 %defattr(-,root,root)
 %{_libdir}/libX11.a
 %{_libdir}/libX11-xcb.a
@@ -157,6 +162,7 @@ Common files used by the X.org
 
 %build
 %configure2_5x
+
 %make
 
 %install
