@@ -1,7 +1,7 @@
-%define	x11-major	6
-%define	xcb-major	1
+%define	x11major	6
+%define	xcbmajor	1
 
-%define libx11 %mklibname x11_ %{x11-major}
+%define libx11 %mklibname x11_ %{x11major}
 %define develname %mklibname x11 -d
 %define staticname %mklibname x11 -s -d
 %define libxorgoldname %mklibname xorg-x11
@@ -186,5 +186,5 @@ rm -rf %{buildroot}
 
 %files -n %{libx11}
 %defattr(-,root,root)
-%{_libdir}/libX11.so.%{x11-major}*
-%{_libdir}/libX11-xcb.so.%{xcb-major}*
+%{_libdir}/libX11.so.%{x11major}*
+%{_libdir}/libX11-xcb.so.%{xcbmajor}*
