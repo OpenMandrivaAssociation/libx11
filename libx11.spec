@@ -1,11 +1,15 @@
-%define libx11 %mklibname x11_ 6
+%define	x11-major	6
+%define	xcb-major	1
+
+%define libx11 %mklibname x11_ %{x11-major}
 %define develname %mklibname x11 -d
 %define staticname %mklibname x11 -s -d
 %define libxorgoldname %mklibname xorg-x11
+
 Name: libx11
 Summary: X Library
-Version: 1.4.1
-Release: %mkrel 4
+Version: 1.4.3
+Release: %mkrel 1
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -182,7 +186,5 @@ rm -rf %{buildroot}
 
 %files -n %{libx11}
 %defattr(-,root,root)
-%{_libdir}/libX11.so.6
-%{_libdir}/libX11.so.6.3.0
-%{_libdir}/libX11-xcb.so.1
-%{_libdir}/libX11-xcb.so.1.0.0
+%{_libdir}/libX11.so.%{x11-major}*
+%{_libdir}/libX11-xcb.so.%{xcb-major}*
