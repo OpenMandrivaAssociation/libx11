@@ -9,7 +9,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.4.3
-Release: %mkrel 1
+Release: %mkrel 2
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -120,8 +120,7 @@ fi
 %{_libdir}/pkgconfig/x11-xcb.pc
 %{_includedir}/X11/Xlib-xcb.h
 %{_mandir}/man5/*.5*
-%dir %{_docdir}/libX11
-%{_docdir}/libX11/*
+%doc %{_docdir}/libX11
 
 #-----------------------------------------------------------
 
