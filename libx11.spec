@@ -9,7 +9,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.4.3
-Release: %mkrel 2
+Release: %mkrel 3
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -120,7 +120,6 @@ fi
 %{_libdir}/pkgconfig/x11-xcb.pc
 %{_includedir}/X11/Xlib-xcb.h
 %{_mandir}/man5/*.5*
-%doc %{_docdir}/libX11
 
 #-----------------------------------------------------------
 
@@ -157,6 +156,21 @@ Common files used by the X.org
 %{_libdir}/X11/Xcms.txt
 %{_datadir}/X11/XErrorDB
 #%{_datadir}/X11/XKeysymDB
+
+#-----------------------------------------------------------
+
+%package doc
+Summary: Documentations used by the X.org
+Group: System/X11
+BuildArch: noarch
+Conflicts: libx11-devel < 1.4.3-3
+
+%description doc
+Documentations used by the X.org
+
+%files doc
+%defattr(-,root,root)
+%{_docdir}/libX11
 
 #-----------------------------------------------------------
 
