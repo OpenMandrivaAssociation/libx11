@@ -8,8 +8,8 @@
 
 Name: libx11
 Summary: X Library
-Version: 1.4.3
-Release: %mkrel 3
+Version: 1.4.4
+Release: %mkrel 1
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
