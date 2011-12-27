@@ -3,21 +3,17 @@
 
 %define libx11 %mklibname x11_ %{x11major}
 %define develname %mklibname x11 -d
-%define staticname %mklibname x11 -s -d
 %define libxorgoldname %mklibname xorg-x11
 
 Name: libx11
 Summary: X Library
 Version: 1.4.4
-Release: %mkrel 1
+Release: 2
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
 Source0: http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.bz2
 Patch0: libX11-1.3.5-fix-null-pointer.patch
-BuildRoot: %{_tmppath}/%{name}-root
-Obsoletes: libxorg-x11
-Provides: libxorg-x11
 
 BuildRequires: x11-util-macros		>= 1.1.5
 BuildRequires: x11-xtrans-devel		>= 1.0.4
@@ -30,8 +26,9 @@ BuildRequires: xcb-devel
 BuildRequires: xmlto
 BuildRequires: x11-sgml-doctools
 
+%rename libxorg-x11
 # because of %{_datadir/X11} being owned by x11-server-common
-Requires(pre): x11-server-common >= 1.4.0.90-13mdv
+Requires(pre): x11-server-common >= 1.4.0.90-13
 
 %description
 %{name} contains the shared libraries that most X programs
@@ -76,11 +73,10 @@ fi
 Summary: Development files for %{name}
 Group: Development/X11
 Requires: %{libx11} = %{version}-%{release}
-Requires: x11-proto-devel >= 1.0.0
 Provides: libx11-devel = %{version}-%{release}
 Conflicts: %{libxorgoldname}-devel < 7.0
-Provides: libx11_6-devel = %{version}-%{release}
-Obsoletes: %{mklibname x11_ 6}-devel
+Obsoletes: %{_lib}x11_6-devel
+Obsoletes: %{_lib}x11-static-devel
 
 %description -n %{develname}
 %{name} includes the libraries, header files and documentation
@@ -99,10 +95,8 @@ if [ -h %{_includedir}/X11 ]; then
 fi
 
 %files -n %{develname}
-%defattr(-,root,root)
 %{_mandir}/man3/*.3.*
 %{_libdir}/libX11.so
-%{_libdir}/libX11.la
 %{_libdir}/pkgconfig/x11.pc
 %{_includedir}/X11/cursorfont.h
 %{_includedir}/X11/ImUtil.h
@@ -116,29 +110,9 @@ fi
 %{_includedir}/X11/XlibConf.h
 %{_includedir}/X11/XKBlib.h
 %{_libdir}/libX11-xcb.so
-%{_libdir}/libX11-xcb.la
 %{_libdir}/pkgconfig/x11-xcb.pc
 %{_includedir}/X11/Xlib-xcb.h
 %{_mandir}/man5/*.5*
-
-#-----------------------------------------------------------
-
-%package -n %{staticname}
-Summary: Static development files for %{name}
-Group: Development/X11
-Requires: %{develname} = %{version}-%{release}
-Conflicts: %{libxorgoldname}-static-devel < 7.0
-Provides: libx11-static-devel = %{version}-%{release}
-Provides: libx11_6-static-devel = %{version}-%{release}
-Obsoletes: %{mklibname x11_ 6}-static-devel
-
-%description -n %{staticname}
-Static development files for %{name}
-
-%files -n %{staticname}
-%defattr(-,root,root)
-%{_libdir}/libX11.a
-%{_libdir}/libX11-xcb.a
 
 #-----------------------------------------------------------
 
@@ -150,12 +124,10 @@ Group: System/X11
 Common files used by the X.org
 
 %files common
-%defattr(-,root,root)
 %dir %{_datadir}/X11/locale
 %{_datadir}/X11/locale/*
 %{_libdir}/X11/Xcms.txt
 %{_datadir}/X11/XErrorDB
-#%{_datadir}/X11/XKeysymDB
 
 #-----------------------------------------------------------
 
@@ -169,7 +141,6 @@ Conflicts: libx11-devel < 1.4.3-3
 Documentations used by the X.org
 
 %files doc
-%defattr(-,root,root)
 %{_docdir}/libX11
 
 #-----------------------------------------------------------
@@ -179,23 +150,14 @@ Documentations used by the X.org
 %patch0 -p1
 
 %build
-%configure2_5x
+%configure2_5x \
+	--disable-static
 
 %make
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std
-
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -p /sbin/ldconfig
-%endif
 
 %files -n %{libx11}
 %defattr(-,root,root)
