@@ -8,7 +8,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.4.4
-Release: 3
+Release: 4
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -51,21 +51,6 @@ Requires(postun): grep coreutils
 need to run properly. These shared libraries are in a separate package in
 order to reduce the disk space needed to run X applications on a machine
 without an X server (i.e, over a network).
-
-%post -n %{libx11}
-if  grep -q "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf; then
-    grep -v "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf > /etc/ld.so.conf.new
-    mv -f /etc/ld.so.conf.new /etc/ld.so.conf
-    /sbin/ldconfig
-fi
-
-%postun -n %{libx11}
-if [ "$1" = "0" \
-   -a "`grep "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf`" != "" ]; then
-    grep -v "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf > /etc/ld.so.conf.new
-    mv -f /etc/ld.so.conf.new /etc/ld.so.conf
-    /sbin/ldconfig
-fi
 
 #-----------------------------------------------------------
 
