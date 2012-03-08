@@ -8,7 +8,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.4.4
-Release: 2
+Release: 3
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -88,11 +88,6 @@ produces a series on X programming which you might find useful.
 
 Install %{name} if you are going to develop programs which
 will run as X clients.
-
-%pre -n %{develname}
-if [ -h %{_includedir}/X11 ]; then
-	rm -f %{_includedir}/X11
-fi
 
 %files -n %{develname}
 %{_mandir}/man3/*.3.*
