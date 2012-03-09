@@ -8,7 +8,7 @@
 Name: libx11
 Summary: X Library
 Version: 1.4.4
-Release: 2
+Release: 3
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
@@ -52,21 +52,6 @@ need to run properly. These shared libraries are in a separate package in
 order to reduce the disk space needed to run X applications on a machine
 without an X server (i.e, over a network).
 
-%post -n %{libx11}
-if  grep -q "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf; then
-    grep -v "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf > /etc/ld.so.conf.new
-    mv -f /etc/ld.so.conf.new /etc/ld.so.conf
-    /sbin/ldconfig
-fi
-
-%postun -n %{libx11}
-if [ "$1" = "0" \
-   -a "`grep "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf`" != "" ]; then
-    grep -v "^%{_prefix}/X11R6/lib$" /etc/ld.so.conf > /etc/ld.so.conf.new
-    mv -f /etc/ld.so.conf.new /etc/ld.so.conf
-    /sbin/ldconfig
-fi
-
 #-----------------------------------------------------------
 
 %package -n %{develname}
@@ -88,11 +73,6 @@ produces a series on X programming which you might find useful.
 
 Install %{name} if you are going to develop programs which
 will run as X clients.
-
-%pre -n %{develname}
-if [ -h %{_includedir}/X11 ]; then
-	rm -f %{_includedir}/X11
-fi
 
 %files -n %{develname}
 %{_mandir}/man3/*.3.*
