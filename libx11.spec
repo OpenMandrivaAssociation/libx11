@@ -7,8 +7,8 @@
 
 Name: libx11
 Summary: X Library
-Version: 1.4.4
-Release: 4
+Version: 1.4.99.901
+Release: 1
 Group: System/Libraries
 License: MIT
 URL: http://xorg.freedesktop.org
