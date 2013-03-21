@@ -15,6 +15,7 @@ URL: http://xorg.freedesktop.org
 Source0: http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.bz2
 Patch0: libX11-1.3.5-fix-null-pointer.patch
 Patch1: libx11-fix-segfault.diff
+Patch2:	libx11-aarch64.patch
 BuildRequires: x11-util-macros		>= 1.1.5
 BuildRequires: x11-xtrans-devel		>= 1.0.4
 BuildRequires: libxdmcp-devel		>= 1.0.2
@@ -129,6 +130,7 @@ Documentations used by the X.org
 %setup -q -n libX11-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure2_5x \
