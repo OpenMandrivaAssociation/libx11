@@ -15,6 +15,7 @@ Source0:	http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.t
 Patch0:		libX11-1.3.5-fix-null-pointer.patch
 Patch1:		libx11-fix-segfault.diff
 BuildRequires:	docbook-dtd43-xml
+BuildRequires:	docbook-style-xsl
 BuildRequires:	groff
 BuildRequires:	x11-sgml-doctools
 BuildRequires:	xmlto
@@ -34,6 +35,7 @@ without an X server (i.e, over a network).
 %package common
 Summary:	Common files used by the X.org
 Group:		System/X11
+BuildArch:	noarch
 # because of _datadir/X11 being owned by x11-server-common
 Requires(pre):	x11-server-common >= 1.4.0.90-13
 
