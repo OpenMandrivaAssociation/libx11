@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   libX11-1.6.0.tar.bz2: e75329fbb5614ff54ccdf8d81e962bcde735c8ed
+sources:
+  libX11-1.6.1.tar.bz2: 35310f127b17d45f4594612796d997970ea9599d
