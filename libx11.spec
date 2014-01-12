@@ -7,13 +7,14 @@
 Summary:	X Library
 Name:		libx11
 Version:	1.6.2
-Release:	5
+Release:	6
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
 Source0:	http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.bz2
 Patch0:		libX11-1.3.5-fix-null-pointer.patch
 Patch1:		libx11-fix-segfault.diff
+Patch2:		libX11-1.6.2-fix-typo.patch
 BuildRequires:	docbook-dtd43-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	groff
