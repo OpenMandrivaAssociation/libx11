@@ -6,8 +6,8 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.6.2
-Release:	9
+Version:	1.6.3
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
@@ -73,7 +73,7 @@ This package includes the development files for %{name}.
 %apply_patches
 
 %build
-%configure2_5x \
+%configure \
 	--disable-static \
 	--enable-composecache
 
