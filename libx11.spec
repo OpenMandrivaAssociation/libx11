@@ -1,12 +1,12 @@
-%define	major	6
-%define	xcbmaj	1
+%define major 6
+%define xcbmaj 1
 %define libname	%mklibname x11_ %{major}
 %define libxcb	%mklibname x11-xcb %{xcbmaj}
 %define devname	%mklibname x11 -d
 
 Summary:	X Library
 Name:		libx11
-Version:	1.6.5
+Version:	1.6.7
 Release:	1
 Group:		System/Libraries
 License:	MIT
