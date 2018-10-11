@@ -1,12 +1,12 @@
-%define	major	6
-%define	xcbmaj	1
+%define major 6
+%define xcbmaj 1
 %define libname	%mklibname x11_ %{major}
 %define libxcb	%mklibname x11-xcb %{xcbmaj}
 %define devname	%mklibname x11 -d
 
 Summary:	X Library
 Name:		libx11
-Version:	1.6.6
+Version:	1.6.7
 Release:	1
 Group:		System/Libraries
 License:	MIT
@@ -68,18 +68,17 @@ Requires:	%{libxcb} = %{EVRD}
 This package includes the development files for %{name}.
 
 %prep
-%setup -qn libX11-%{version}
-%apply_patches
+%autosetup -n libX11-%{version} -p1
 
 %build
 %configure \
     --disable-static \
     --enable-composecache
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 %files common
 %dir %{_datadir}/X11/locale
