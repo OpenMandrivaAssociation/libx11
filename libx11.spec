@@ -1,13 +1,15 @@
 %define major 6
 %define xcbmaj 1
-%define libname	%mklibname x11_ %{major}
-%define libxcb	%mklibname x11-xcb %{xcbmaj}
-%define devname	%mklibname x11 -d
+%define libname %mklibname x11_ %{major}
+%define libxcb %mklibname x11-xcb %{xcbmaj}
+%define devname %mklibname x11 -d
+
+%global optflags %{optflags} -O3
 
 Summary:	X Library
 Name:		libx11
 Version:	1.6.7
-Release:	2
+Release:	3
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
