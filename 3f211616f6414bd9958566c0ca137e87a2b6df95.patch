@@ -1,0 +1,65 @@
+From 3f211616f6414bd9958566c0ca137e87a2b6df95 Mon Sep 17 00:00:00 2001
+From: Pavel Labath <pavelo@centrum.sk>
+Date: Fri, 30 Nov 2012 20:45:04 +0100
+Subject: Fix a leak in XCreateFontSet
+
+a simple snippet like XFreeFontSet(d, XCreateFontSet(d, ...)) will generate lots of memory leaks,
+as evidenced by the following valgrind output:
+==983== HEAP SUMMARY:
+==983==     in use at exit: 39,409 bytes in 341 blocks
+==983==   total heap usage: 4,795 allocs, 4,454 frees, 489,086 bytes allocated
+==983==
+==983== 1,688 (136 direct, 1,552 indirect) bytes in 1 blocks are definitely lost in loss record
+40 of 46
+==983==    at 0x4C2B042: realloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==983==    by 0x56D5A93: add_codeset.clone.9 (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56D5FE0: load_generic (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56D7612: initialize (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56D7E75: _XlcCreateLC (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56F9A5F: _XlcUtf8Loader (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56DF815: _XOpenLC (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56B255A: XOpenOM (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x56A665A: XCreateFontSet (in /usr/lib64/libX11.so.6.3.0)
+==983==    by 0x4FCA80: conky::x11_output::create_gc() (x11.cc:746)
+==983==    by 0x4FC3B4: conky::x11_output::use_own_window() (x11.cc:602)
+==983==    by 0x4FAD42: conky::priv::own_window_setting::set(bool const&, bool) (x11.cc:92)
+==983==
+==983== LEAK SUMMARY:
+==983==    definitely lost: 136 bytes in 1 blocks
+==983==    indirectly lost: 1,552 bytes in 34 blocks
+==983==      possibly lost: 0 bytes in 0 blocks
+==983==    still reachable: 37,721 bytes in 306 blocks
+==983==         suppressed: 0 bytes in 0 blocks
+
+This patch makes the leak dissappear (Well, at least the "definitely lost part". The "still
+reachable" thingy remains). After some analysis, I've discovered that the XLCd structure is
+destroyed improperly. The "constructor" is in lcGeneric.c, but the structure is destroyed using
+code from lcPublic.c. I've found that changing the destructor call to _XlcDestroyLC executes the
+correct code path, and I'm pretty sure this is correct (the object was constructed using
+_XlcCreateLC, it make sense to destroy it using its conterpart).
+
+So far I haven't observed any strange behaviour on my system caused by this change (although, I'm
+not sure, how many programs actually use this function).
+
+Signed-off-by: Pavel Labath <pavelo@centrum.sk>
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/xlibi18n/lcWrap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/xlibi18n/lcWrap.c b/src/xlibi18n/lcWrap.c
+index f2af240..d1fa259 100644
+--- a/src/xlibi18n/lcWrap.c
++++ b/src/xlibi18n/lcWrap.c
+@@ -328,7 +328,7 @@ _XCloseLC(
+     for (prev = &lcd_list; (cur = *prev); prev = &cur->next) {
+ 	if (cur->lcd == lcd) {
+ 	    if (--cur->ref_count < 1) {
+-		(*lcd->methods->close)(lcd);
++		_XlcDestroyLC(lcd);
+ 		*prev = cur->next;
+ 		Xfree(cur);
+ 	    }
+-- 
+cgit v1.1
+
