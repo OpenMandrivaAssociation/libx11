@@ -112,5 +112,6 @@ This package includes the development files for %{name}.
 %{_includedir}/X11/XlibConf.h
 %{_includedir}/X11/XKBlib.h
 %{_includedir}/X11/Xlib-xcb.h
+%{_includedir}/X11/extensions/XKBgeom.h
 %{_mandir}/man3/*.3.*
 %{_mandir}/man5/*.5*
