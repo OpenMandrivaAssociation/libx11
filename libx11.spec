@@ -4,12 +4,28 @@
 %define libxcb %mklibname x11-xcb %{xcbmaj}
 %define devname %mklibname x11 -d
 
+# Disabling LTO is a workaround for 32-bit gcc.
+# No harm done because LTO is enabled manually for
+# the 64-bit build.
+%global _disable_lto 1
 %global optflags %{optflags} -O3
+
+# libx11 is used by wine and steam
+%ifarch %{x86_64}
+%bcond_without compat32
+%else
+%bcond_with compat32
+%endif
+%if %{with compat32}
+%define lib32name libx11_%{major}
+%define lib32xcb libx11-xcb%{xcbmaj}
+%define dev32name libx11-devel
+%endif
 
 Summary:	X Library
 Name:		libx11
 Version:	1.6.9
-Release:	2
+Release:	3
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
@@ -27,6 +43,11 @@ BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xorg-macros)
 BuildRequires:	pkgconfig(xproto)
 BuildRequires:	pkgconfig(xtrans)
+%if %{with compat32}
+BuildRequires:	devel(libXau)
+BuildRequires:	devel(libxcb)
+BuildRequires:	devel(libXdmcp)
+%endif
 
 %description
 %{name} contains the shared libraries that most X programs
@@ -69,18 +90,59 @@ Requires:	%{libxcb} = %{EVRD}
 %description -n %{devname}
 This package includes the development files for %{name}.
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	X Library (32-bit)
+Group:		Development/X11
+
+%description -n %{lib32name}
+This package contains a shared library for %{name}.
+
+%package -n %{lib32xcb}
+Summary:	X Library (32-bit)
+Group:		Development/X11
+Conflicts:	%{_lib}x11_6 < 1.6.0-2
+
+%description -n %{lib32xcb}
+This package contains a shared library for %{name}.
+
+%package -n %{dev32name}
+Summary:	Development files for %{name} (32-bit)
+Group:		Development/X11
+Requires:	%{devname} = %{EVRD}
+Requires:	%{lib32name} = %{EVRD}
+Requires:	%{lib32xcb} = %{EVRD}
+
+%description -n %{dev32name}
+This package includes the development files for %{name}.
+%endif
+
 %prep
 %autosetup -n libX11-%{version} -p1
+export CONFIGURE_TOP="`pwd`"
+
+%if %{with compat32}
+mkdir build32
+cd build32
+%configure32 --enable-composecache
+cd ..
+%endif
+
+mkdir build
+cd build
+CFLAGS="%{optflags} -flto" LDFLAGS="%{ldflags} -flto" %configure --enable-composecache
 
 %build
-%configure \
-    --disable-static \
-    --enable-composecache
-
-%make_build
+%if %{with compat32}
+%make_build -C build32
+%endif
+%make_build -C build
 
 %install
-%make_install
+%if %{with compat32}
+%make_install -C build32
+%endif
+%make_install -C build
 
 %files common
 %dir %{_datadir}/X11/locale
@@ -115,3 +177,17 @@ This package includes the development files for %{name}.
 %{_includedir}/X11/extensions/XKBgeom.h
 %{_mandir}/man3/*.3.*
 %{_mandir}/man5/*.5*
+
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/libX11.so.%{major}*
+
+%files -n %{lib32xcb}
+%{_prefix}/lib/libX11-xcb.so.%{xcbmaj}*
+
+%files -n %{dev32name}
+%{_prefix}/lib/libX11.so
+%{_prefix}/lib/libX11-xcb.so
+%{_prefix}/lib/pkgconfig/x11.pc
+%{_prefix}/lib/pkgconfig/x11-xcb.pc
+%endif
