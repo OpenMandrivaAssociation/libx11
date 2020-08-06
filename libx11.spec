@@ -24,8 +24,8 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.6.9
-Release:	3
+Version:	1.6.10
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
