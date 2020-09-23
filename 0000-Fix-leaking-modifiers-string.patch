@@ -1,0 +1,37 @@
+From 1a9269a95c353e3de9f4d33bab9f1363d84e79db Mon Sep 17 00:00:00 2001
+From: Krzesimir Nowak <qdlacz@gmail.com>
+Date: Mon, 1 Jun 2020 12:58:30 +0000
+Subject: [PATCH] Fix leaking modifiers string.
+
+Reported by valgrind:
+
+```
+==118175== 17 bytes in 1 blocks are definitely lost in loss record 13 of 1,675
+==118175==    at 0x483A809: malloc (vg_replace_malloc.c:307)
+==118175==    by 0x5CD1B46: _XlcDefaultMapModifiers (in /usr/lib64/libX11.so.6.3.0)
+==118175==    by 0x5CD1F1A: XSetLocaleModifiers (in /usr/lib64/libX11.so.6.3.0)
+==118175==    by 0x496841C: X11_InitKeyboard (SDL_x11keyboard.c:324)
+==118175==    by 0x496F0CA: X11_VideoInit (SDL_x11video.c:455)
+==118175==    by 0x494747B: SDL_VideoInit_REAL (SDL_video.c:532)
+==118175==    by 0x489E886: SDL_InitSubSystem_REAL (SDL.c:206)
+==118175==    by 0x402634: main (fade.cc:35)
+```
+---
+ src/xlibi18n/lcPublic.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/xlibi18n/lcPublic.c b/src/xlibi18n/lcPublic.c
+index 74378642..1cbc212d 100644
+--- a/src/xlibi18n/lcPublic.c
++++ b/src/xlibi18n/lcPublic.c
+@@ -258,6 +258,7 @@ destroy_core(
+     if (lcd) {
+         if (lcd->core) {
+             Xfree(lcd->core->name);
++            Xfree(lcd->core->modifiers);
+             Xfree(lcd->core);
+         }
+         Xfree(lcd->methods);
+-- 
+2.27.0
+

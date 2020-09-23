@@ -25,13 +25,14 @@
 Summary:	X Library
 Name:		libx11
 Version:	1.6.12
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
 Source0:	http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.bz2
 Patch0:		libX11-1.3.5-fix-null-pointer.patch
 Patch1:		libx11-fix-segfault.diff
+Patch2:		0000-Fix-leaking-modifiers-string.patch
 BuildRequires:	docbook-dtd43-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	groff
@@ -119,7 +120,7 @@ This package includes the development files for %{name}.
 
 %prep
 %autosetup -n libX11-%{version} -p1
-export CONFIGURE_TOP="`pwd`"
+export CONFIGURE_TOP="$(pwd)"
 
 %if %{with compat32}
 mkdir build32
