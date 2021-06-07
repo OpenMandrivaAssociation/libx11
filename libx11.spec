@@ -24,7 +24,7 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.7.1
+Version:	1.7.2
 Release:	1
 Group:		System/Libraries
 License:	MIT
@@ -130,7 +130,7 @@ cd ..
 
 mkdir build
 cd build
-CFLAGS="%{optflags} -flto" LDFLAGS="%{ldflags} -flto" %configure --enable-composecache
+CFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto" %configure --enable-composecache
 
 %build
 %if %{with compat32}
