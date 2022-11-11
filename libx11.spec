@@ -24,14 +24,12 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.8.1
+Version:	1.8.2
 Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
 Source0:	http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.xz
-Patch0:		libX11-1.3.5-fix-null-pointer.patch
-Patch1:		libx11-fix-segfault.diff
 BuildRequires:	docbook-dtd43-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	groff
@@ -175,8 +173,8 @@ CFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto" %configure --enable-
 %{_includedir}/X11/XKBlib.h
 %{_includedir}/X11/Xlib-xcb.h
 %{_includedir}/X11/extensions/XKBgeom.h
-%{_mandir}/man3/*.3.*
-%{_mandir}/man5/*.5*
+%doc %{_mandir}/man3/*.3.*
+%doc %{_mandir}/man5/*.5*
 
 %if %{with compat32}
 %files -n %{lib32name}
