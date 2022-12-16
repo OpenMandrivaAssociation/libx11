@@ -24,7 +24,7 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.8.2
+Version:	1.8.3
 Release:	1
 Group:		System/Libraries
 License:	MIT
@@ -42,6 +42,7 @@ BuildRequires:	pkgconfig(xorg-macros)
 BuildRequires:	pkgconfig(xproto)
 BuildRequires:	pkgconfig(xtrans)
 %if %{with compat32}
+BuildRequires:	libc6
 BuildRequires:	devel(libXau)
 BuildRequires:	devel(libxcb)
 BuildRequires:	devel(libXdmcp)
