@@ -24,15 +24,12 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.8.3
-Release:	2
+Version:	1.8.4
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://xorg.freedesktop.org
 Source0:	http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.xz
-# (tpg) upstream patches that fixes https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/174
-Patch100:	https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/176.patch
-Patch101:	https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/177.patch
 BuildRequires:	docbook-dtd43-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	groff
