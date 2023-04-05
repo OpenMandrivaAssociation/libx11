@@ -129,7 +129,11 @@ cd ..
 
 mkdir build
 cd build
-CFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto" %configure --enable-composecache
+CFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto" %configure \
+%if %{cross_compiling}
+	--disable-malloc0returnsnull \
+%endif
+	--enable-composecache
 
 %build
 %if %{with compat32}
