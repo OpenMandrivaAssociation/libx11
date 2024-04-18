@@ -24,12 +24,12 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.8.7
+Version:	1.8.9
 Release:	1
 Group:		System/Libraries
 License:	MIT
-Url:		http://xorg.freedesktop.org
-Source0:	http://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.xz
+Url:		https://xorg.freedesktop.org
+Source0:	https://xorg.freedesktop.org/releases/individual/lib/libX11-%{version}.tar.xz
 BuildRequires:	docbook-dtd43-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	groff
