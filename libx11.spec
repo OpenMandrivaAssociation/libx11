@@ -24,7 +24,7 @@
 
 Summary:	X Library
 Name:		libx11
-Version:	1.8.13
+Version:	1.8.14
 Release:	1
 Group:		System/Libraries
 License:	MIT
