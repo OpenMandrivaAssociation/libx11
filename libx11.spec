@@ -25,7 +25,7 @@
 Summary:	X Library
 Name:		libx11
 Version:	1.8.14
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		https://xorg.freedesktop.org
@@ -48,6 +48,12 @@ BuildRequires:	pkgconfig(xproto)
 BuildRequires:	pkgconfig(xtrans)
 %if %{with compat32}
 BuildRequires:	libc6
+# clang -m32 links against the i686 sysroot, which is not in the default chroot.
+BuildRequires:	cross-i686-openmandriva-linux-gnu-clang
+BuildRequires:	cross-i686-openmandriva-linux-gnu-libc
+BuildRequires:	cross-i686-openmandriva-linux-gnu-gcc
+BuildRequires:	cross-i686-openmandriva-linux-gnu-binutils
+BuildRequires:	cross-i686-openmandriva-linux-gnu-kernel-headers
 BuildRequires:	devel(libXau)
 BuildRequires:	devel(libxcb)
 BuildRequires:	devel(libXdmcp)
